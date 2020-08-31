@@ -28,7 +28,7 @@ const DatePicker = (props: Props): React.ReactElement => {
   };
   return (
     <Container style={props.dateInputStyle}>
-      <DateInput style={props.dateInputStyle} selectedDate={selectedDate} />
+      <DateInput style={props.dateInputStyle} selectedDate={selectedDate} label={props.label}/>
       {/* <PickerCalendar
         open={pickerOpen}
         selectedDate={selectedDate}
