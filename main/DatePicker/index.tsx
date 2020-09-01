@@ -15,6 +15,17 @@ interface Props {
   dateInputStyle?: ViewStyle;
   dateInputTextStyle?: TextStyle;
   calendarStyle?: ViewStyle;
+  style?: ViewStyle;
+  label?: string;
+  labelTextStyle?: void;
+  labelStyle?: void;
+  placeholder?: string;
+  placeholderTextColor?:void;
+  underlineColor?:void;
+  errorText?:string;
+  errorTextStyle?:void;
+  textStyle?:void;
+  value?:string;
 }
 
 const DatePicker = (props: Props): React.ReactElement => {
@@ -28,7 +39,7 @@ const DatePicker = (props: Props): React.ReactElement => {
   };
   return (
     <Container style={props.dateInputStyle}>
-      <DateInput style={props.dateInputStyle} selectedDate={selectedDate} label={props.label}/>
+      <DateInput style={props.dateInputStyle} selectedDate={selectedDate} label={props.label} placeholder={props.placeholder}/>
       {/* <PickerCalendar
         open={pickerOpen}
         selectedDate={selectedDate}
