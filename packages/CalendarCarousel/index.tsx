@@ -9,7 +9,14 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, { Fragment, PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  PropsWithChildren,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 interface Style {
   container: ViewStyle;
@@ -119,9 +126,11 @@ const styles = StyleSheet.create<Style>({
 
 const isToday = (date: Date): boolean => {
   const today = new Date();
-  return date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear();
+  return (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  );
 };
 
 interface Props<T> {
@@ -136,7 +145,10 @@ let scrolling = false;
 let timeout;
 
 function CalendarCarousel<T>({
-  date = new Date(), onDateChanged, selectDate, selectedDate,
+  date = new Date(),
+  onDateChanged,
+  selectDate,
+  selectedDate,
 }: PropsWithChildren<Props<T>>): React.ReactElement {
   const [currentDate, setCurrentDate] = useState<Date>(date);
   const scrollRef = useRef<ScrollView>(null);
@@ -151,7 +163,7 @@ function CalendarCarousel<T>({
     if (toPrevMonth) {
       const update = new Date(
         currentDate.getFullYear(),
-        currentDate.getMonth() - 1,
+        currentDate.getMonth(),
         currentDate.getDate(),
       );
 
@@ -184,7 +196,9 @@ function CalendarCarousel<T>({
 
     for (let idx = 0; idx <= 6; idx++) {
       const matchMonth = new Date(2020, 5, idx);
-      const weekDay = matchMonth.toLocaleString('default', { weekday: 'narrow' });
+      const weekDay = matchMonth.toLocaleString('default', {
+        weekday: 'narrow',
+      });
       weekdays.push(
         <View style={{ width: 47.14 }} key={idx}>
           <Text style={styles.weekdayText}>{weekDay}</Text>
@@ -204,28 +218,25 @@ function CalendarCarousel<T>({
 
     const days = [];
     for (let d = 1; d <= currentMonthDays; d++) {
-      if (isToday(
-        new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          d,
-        ),
-      )) {
+      if (
+        isToday(new Date(currentDate.getFullYear(), currentDate.getMonth(), d))
+      ) {
         days.push(
-          <View
-            style={styles.currentDayView}>
+          <View style={styles.currentDayView}>
             <Text style={styles.currentDayText}>{`${d}`}</Text>
           </View>,
         );
-      } else if (d === selectedDate?.getDate() && month === selectedDate?.getMonth()) {
+      } else if (
+        d === selectedDate?.getDate() &&
+        month === selectedDate?.getMonth()
+      ) {
         days.push(
-          <TouchableOpacity onPress={(): void => selectDate?.(
-          new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            d,
-          ),
-        )}>
+          <TouchableOpacity
+            onPress={(): void =>
+              selectDate?.(
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), d),
+              )
+            }>
             <View style={styles.activeView}>
               <Text style={styles.activeText}>{`${d}`}</Text>
             </View>
@@ -233,13 +244,12 @@ function CalendarCarousel<T>({
         );
       } else {
         days.push(
-          <TouchableOpacity onPress={(): void => selectDate?.(
-          new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            d,
-          ),
-        )}>
+          <TouchableOpacity
+            onPress={(): void =>
+              selectDate?.(
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), d),
+              )
+            }>
             <View style={styles.notActiveView}>
               <Text style={styles.notActiveText}>{`${d}`}</Text>
             </View>
@@ -252,12 +262,8 @@ function CalendarCarousel<T>({
     if (6 - lastWeekday >= 1) {
       for (let idx = 1; idx <= 6 - lastWeekday; idx++) {
         nextDays.push(
-          <View
-            style={styles.otherDaysView}>
-            <Text
-              style={styles.otherDaysText}>
-              {`${idx}`}
-            </Text>
+          <View style={styles.otherDaysView}>
+            <Text style={styles.otherDaysText}>{`${idx}`}</Text>
           </View>,
         );
       }
@@ -294,15 +300,29 @@ function CalendarCarousel<T>({
   };
 
   const renderCalendars = (currentDate: Date): ReactElement => {
-    const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate());
-    const currentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate());
+    const prevMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      currentDate.getDate(),
+    );
+    const currentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+    );
+    const nextMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      currentDate.getDate(),
+    );
 
-    return <Fragment>
-      {renderCalendar(prevMonth)}
-      {renderCalendar(currentMonth)}
-      {renderCalendar(nextMonth)}
-    </Fragment>;
+    return (
+      <Fragment>
+        {renderCalendar(prevMonth)}
+        {renderCalendar(currentMonth)}
+        {renderCalendar(nextMonth)}
+      </Fragment>
+    );
   };
 
   const scrollToMiddleCalendar = (): void => {
@@ -319,35 +339,51 @@ function CalendarCarousel<T>({
   };
 
   return (
-    <SafeAreaView style={styles.container} onLayout={(e): void => {
-      layoutWidth = e.nativeEvent.layout.width;
-    }}>
+    <SafeAreaView
+      style={styles.container}
+      onLayout={(e): void => {
+        layoutWidth = e.nativeEvent.layout.width;
+      }}>
       <ScrollView
         horizontal
         pagingEnabled
         scrollEventThrottle={16}
-        contentOffset = {{ x: 330, y: 0 }}
+        contentOffset={{ x: 330, y: 0 }}
         ref={scrollRef}
-        onScroll={(e):void => {
+        onScroll={(e): void => {
           if (e.nativeEvent.contentOffset.x === 0) {
             if (scrollRef && scrollRef.current) {
               if (scrolling) return;
 
               scrolling = true;
-              setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, currentDate.getDate()));
+              setCurrentDate(
+                new Date(
+                  currentDate.getFullYear(),
+                  currentDate.getMonth() - 1,
+                  currentDate.getDate(),
+                ),
+              );
               scrollToMiddleCalendar();
             }
-          } else if (layoutWidth && e.nativeEvent.contentOffset.x === (layoutWidth * 2)) {
+          } else if (
+            layoutWidth &&
+            e.nativeEvent.contentOffset.x === layoutWidth * 2
+          ) {
             if (scrollRef && scrollRef.current) {
               if (scrolling) return;
 
               scrolling = true;
-              setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate()));
+              setCurrentDate(
+                new Date(
+                  currentDate.getFullYear(),
+                  currentDate.getMonth() + 1,
+                  currentDate.getDate(),
+                ),
+              );
               scrollToMiddleCalendar();
             }
           }
-        }}
-      >
+        }}>
         {renderCalendars(currentDate)}
       </ScrollView>
     </SafeAreaView>
