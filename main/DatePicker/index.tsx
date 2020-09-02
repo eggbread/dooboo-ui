@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
 import {
   Dimensions,
   TextStyle,
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
+import React, { FC } from 'react';
 
 import DateInput from './DateInput';
 import PickerCalendar from './PickerCalendar';
@@ -52,16 +52,19 @@ const DatePicker = (props: Props): React.ReactElement => {
         selectedDate={selectedDate}
         label={props.label}
         placeholder={props.placeholder}
+        onPressCalendar={(): void => {
+          setCalendarVisible(true);
+        }}
       />
-      {/* <PickerCalendar
-        open={pickerOpen}
+      <PickerCalendar
+        visible={calendarVisible}
         selectedDate={selectedDate}
         onSelectDate={onSelectDate}
         onBackdropPress={(): void => {
           setCalendarVisible(false);
         }}
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={(): void => {
           setCalendarVisible(true);
         }}>
