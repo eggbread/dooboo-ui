@@ -21,6 +21,17 @@ interface Props {
   dateInputStyle?: ViewStyle;
   dateInputTextStyle?: TextStyle;
   calendarStyle?: ViewStyle;
+  style?: ViewStyle;
+  label?: string;
+  labelTextStyle?: void;
+  labelStyle?: void;
+  placeholder?: string;
+  placeholderTextColor?: void;
+  underlineColor?: void;
+  errorText?: string;
+  errorTextStyle?: void;
+  textStyle?: void;
+  value?: string;
 }
 
 const { width, height } = Dimensions.get('window');
@@ -36,9 +47,14 @@ const DatePicker = (props: Props): React.ReactElement => {
   };
   return (
     <Container style={props.dateInputStyle}>
-      <DateInput style={props.dateInputStyle} selectedDate={selectedDate} />
-      <PickerCalendar
-        visible={calendarVisible}
+      <DateInput
+        style={props.dateInputStyle}
+        selectedDate={selectedDate}
+        label={props.label}
+        placeholder={props.placeholder}
+      />
+      {/* <PickerCalendar
+        open={pickerOpen}
         selectedDate={selectedDate}
         onSelectDate={onSelectDate}
         onBackdropPress={(): void => {
@@ -50,7 +66,7 @@ const DatePicker = (props: Props): React.ReactElement => {
           setCalendarVisible(true);
         }}>
         <DateText>{'캘린더 표시'}</DateText>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </Container>
   );
 };
