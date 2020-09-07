@@ -81,6 +81,7 @@ const DateInput: FC<Props> = (props) => {
   const [error, setError] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
 
+
   const {
     style,
     label = 'Date picker',
